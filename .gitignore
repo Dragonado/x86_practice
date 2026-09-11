@@ -1,0 +1,6 @@
+src/*/starter
+src/*/solution
+src/*/*.o
+src/*/actual.txt
+core
+core.*
