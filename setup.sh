@@ -1,6 +1,9 @@
 #!/bin/sh
 set -eu
 
+DOCKER_CLI_HINTS=false
+export DOCKER_CLI_HINTS
+
 if ! command -v docker >/dev/null 2>&1; then
   echo "Docker Desktop is required: https://www.docker.com/products/docker-desktop/"
   echo "After installing it, enable 'Use Rosetta for x86/amd64 emulation' in Settings > General."

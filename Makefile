@@ -1,5 +1,7 @@
 .PHONY: build shell run test test-module
 
+export DOCKER_CLI_HINTS := false
+
 COMPOSE := docker compose
 
 build:

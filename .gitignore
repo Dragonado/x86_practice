@@ -4,3 +4,4 @@ src/*/*.o
 src/*/actual.txt
 core
 core.*
+progress.md
