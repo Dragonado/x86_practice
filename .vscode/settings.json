@@ -1,0 +1,9 @@
+{
+  "[nasm]": {
+    "editor.defaultFormatter": "HoodUSSEnterprise.nasm-format",
+    "editor.formatOnSave": true
+  },
+  "nasmFormatter.indentSize": 4,
+  "nasmFormatter.spaceAfterComma": true,
+  "nasmFormatter.commentColumn": 40
+}
