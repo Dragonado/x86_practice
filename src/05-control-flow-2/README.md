@@ -1,22 +1,53 @@
 # Module 05: Loops
 
-## Objective
+## What you're learning
 
-Counter-controlled loops, dec/jnz, factorial, and Fibonacci patterns.
+Build repetition from labels, counters, and conditional jumps. Understand the difference between the `loop` instruction and an explicit `dec`/`jnz` loop.
 
-## Exercise
+## Your task
 
-Replace the TODO program in starter.asm so its exact output is:
+Calculate the sum of the integers from 1 through 10 by visiting each value in a loop, convert the resulting 55 to decimal text, and print it.
 
-    loop sum: 55
+The exact output must be:
 
-Run it with make run MODULE=05-control-flow-2 and verify with make test-module MODULE=05-control-flow-2. Check solution.asm only after attempting it.
+```text
+loop sum: 55
+```
 
-## Inspect and debug
+## Implementation requirements
 
-From make shell, build the solution and inspect it with objdump -d -M intel. In GDB, break at _start, then use run, display/i $pc, info registers, and stepi.
+- Initialize a running total and a loop counter separately.
+- Execute a loop body exactly ten times.
+- Update the total from the current counter value on every iteration.
+- Control repetition with either `loop` or an explicit decrement and conditional jump.
+- Convert the computed sum into the two output digits at runtime.
 
-## Checkpoint
+## Shortcuts that defeat the exercise
 
-Explain which registers carry the system-call number and arguments, and predict the next instruction before each GDB step.
+- Do not use the closed-form formula for the sum.
+- Do not initialize the total to 55.
+- Do not unroll ten additions into ten copied instructions.
+- Do not store `55` as prebuilt output text.
 
+The automated test checks observable output, so it cannot prove that you used the required technique. Treat these constraints as part of the test.
+
+## Hints without the solution
+
+- Use GDB to stop at the loop label and display the counter and accumulator each time.
+- Be careful whether your counter runs upward or downward.
+- The flags used by a manual loop may come from the decrement rather than the addition.
+
+## Run and inspect
+
+```sh
+make run MODULE=05-control-flow-2
+make test-module MODULE=05-control-flow-2
+```
+
+Build inside `make shell` and inspect your executable with `objdump -d -M intel`. Use GDB to break at `_start`, display the next instruction, inspect registers, and step one machine instruction at a time. Check `solution.asm` only after a serious attempt.
+
+## You understand this module when you can answer
+
+- What are the accumulator and counter after iterations 1, 5, and 10?
+- Does your loop execute when the initial count is zero?
+- Which version is clearer: `loop` or `dec`/`jnz`, and why?

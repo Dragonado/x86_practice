@@ -1,22 +1,52 @@
 # Module 06: The Stack
 
-## Objective
+## What you're learning
 
-push, pop, call, ret, and the shape of a stack frame.
+Understand the downward-growing x86 stack and how `push`, `pop`, `call`, and `ret` change `ESP` and memory.
 
-## Exercise
+## Your task
 
-Replace the TODO program in starter.asm so its exact output is:
+Place two non-42 values on the stack, retrieve them in last-in-first-out order, combine them to obtain 42, and print the computed value.
 
-    stack value: 42
+The exact output must be:
 
-Run it with make run MODULE=06-stack and verify with make test-module MODULE=06-stack. Check solution.asm only after attempting it.
+```text
+stack value: 42
+```
 
-## Inspect and debug
+## Implementation requirements
 
-From make shell, build the solution and inspect it with objdump -d -M intel. In GDB, break at _start, then use run, display/i $pc, info registers, and stepi.
+- Record the initial `ESP` so you can verify that it is restored.
+- Use at least two `push` operations and matching `pop` operations.
+- Demonstrate the reversed retrieval order intentionally.
+- Compute 42 only after retrieving the values.
+- Leave `ESP` at its original value before invoking `exit`.
 
-## Checkpoint
+## Shortcuts that defeat the exercise
 
-Explain which registers carry the system-call number and arguments, and predict the next instruction before each GDB step.
+- Do not store 42 as the initial stack value.
+- Do not read the values directly from their original `.data` locations after pushing them.
+- Do not fix an unbalanced stack merely by copying an old address into `ESP` without understanding what was left behind.
 
+The automated test checks observable output, so it cannot prove that you used the required technique. Treat these constraints as part of the test.
+
+## Hints without the solution
+
+- After each push, examine four words at `$esp` in GDB.
+- A 32-bit push subtracts four from `ESP` before storing.
+- Your syscall setup can overwrite registers after the stack demonstration is complete.
+
+## Run and inspect
+
+```sh
+make run MODULE=06-stack
+make test-module MODULE=06-stack
+```
+
+Build inside `make shell` and inspect your executable with `objdump -d -M intel`. Use GDB to break at `_start`, display the next instruction, inspect registers, and step one machine instruction at a time. Check `solution.asm` only after a serious attempt.
+
+## You understand this module when you can answer
+
+- Which pushed value is popped first?
+- How many bytes did `ESP` move?
+- How is `call` related to a push, and how is `ret` related to a pop?

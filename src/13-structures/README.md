@@ -1,22 +1,53 @@
 # Module 13: Structures and Unions
 
-## Objective
+## What you're learning
 
-Field offsets, padding, alignment, and base-plus-offset access.
+Understand that a structure is contiguous memory interpreted through named field offsets, and that alignment can introduce padding between fields.
 
-## Exercise
+## Your task
 
-Replace the TODO program in starter.asm so its exact output is:
+Define a record with fields of different widths, create one initialized instance, load the field whose value is 42 through the record base plus its field offset, and print that value.
 
-    struct field: 42
+The exact output must be:
 
-Run it with make run MODULE=13-structures and verify with make test-module MODULE=13-structures. Check solution.asm only after attempting it.
+```text
+struct field: 42
+```
 
-## Inspect and debug
+## Implementation requirements
 
-From make shell, build the solution and inspect it with objdump -d -M intel. In GDB, break at _start, then use run, display/i $pc, info registers, and stepi.
+- Define the layout once with NASM structure facilities or explicit named offset constants.
+- Include at least one byte-sized field and one dword-sized field.
+- Account explicitly for any padding needed to align the dword field.
+- Calculate the target address from the instance base and field offset.
+- Load the value using the field's correct operand size before converting it to text.
 
-## Checkpoint
+## Shortcuts that defeat the exercise
 
-Explain which registers carry the system-call number and arguments, and predict the next instruction before each GDB step.
+- Do not define a separate label directly on the target value and load through that shortcut.
+- Do not assume every field begins immediately after the previous field.
+- Do not hardcode 42 into the output buffer.
+- Do not confuse a structure definition, which describes offsets, with an instance, which occupies storage.
 
+The automated test checks observable output, so it cannot prove that you used the required technique. Treat these constraints as part of the test.
+
+## Hints without the solution
+
+- Draw a table with offset, size, and meaning for every byte in the record.
+- Use `x/16xb` in GDB to see padding and little-endian byte order.
+- Change an earlier field's size and predict which later offsets must change.
+
+## Run and inspect
+
+```sh
+make run MODULE=13-structures
+make test-module MODULE=13-structures
+```
+
+Build inside `make shell` and inspect your executable with `objdump -d -M intel`. Use GDB to break at `_start`, display the next instruction, inspect registers, and step one machine instruction at a time. Check `solution.asm` only after a serious attempt.
+
+## You understand this module when you can answer
+
+- What is the total record size including padding?
+- Why can a union's fields share offset zero?
+- How would an array of these records be indexed?

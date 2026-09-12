@@ -1,22 +1,52 @@
 # Module 10: Reading Assembly from C
 
-## Objective
+## What you're learning
 
-Recognizing compiled forms of C conditionals, loops, and expressions.
+Recognize how high-level variables, expressions, `if` statements, and returns become register operations and jumps.
 
-## Exercise
+## Your task
 
-Replace the TODO program in starter.asm so its exact output is:
+Translate the provided behavior into assembly: start with input 21; if it is greater than 10, return twice the input, otherwise return the input plus one. Print the returned result.
 
-    c pattern: 42
+The exact output must be:
 
-Run it with make run MODULE=10-c-to-assembly and verify with make test-module MODULE=10-c-to-assembly. Check solution.asm only after attempting it.
+```text
+c pattern: 42
+```
 
-## Inspect and debug
+## Implementation requirements
 
-From make shell, build the solution and inspect it with objdump -d -M intel. In GDB, break at _start, then use run, display/i $pc, info registers, and stepi.
+- Implement both branches even though the supplied input selects only one.
+- Use a comparison and the correct signed conditional jump.
+- Keep the shared printing code outside the two calculation branches.
+- Make changing the input to 10 produce 11 without restructuring the program.
+- Treat the computed value as an integer until the output-conversion step.
 
-## Checkpoint
+## Shortcuts that defeat the exercise
 
-Explain which registers carry the system-call number and arguments, and predict the next instruction before each GDB step.
+- Do not replace the function with `mov ..., 42`.
+- Do not delete the branch that is not selected by input 21.
+- Do not confuse the source-level value with its ASCII representation.
 
+The automated test checks observable output, so it cannot prove that you used the required technique. Treat these constraints as part of the test.
+
+## Hints without the solution
+
+- Write the equivalent C function on paper and assign each local value to a register.
+- Compile a tiny C version inside the container with `gcc -m32 -S -masm=intel` and compare patterns, but do not copy it blindly.
+- Look for the compare, branch, and join point in your disassembly.
+
+## Run and inspect
+
+```sh
+make run MODULE=10-c-to-assembly
+make test-module MODULE=10-c-to-assembly
+```
+
+Build inside `make shell` and inspect your executable with `objdump -d -M intel`. Use GDB to break at `_start`, display the next instruction, inspect registers, and step one machine instruction at a time. Check `solution.asm` only after a serious attempt.
+
+## You understand this module when you can answer
+
+- Which instructions implement the `if` condition?
+- Where do both branches rejoin?
+- What changes in unoptimized versus optimized compiler output?
