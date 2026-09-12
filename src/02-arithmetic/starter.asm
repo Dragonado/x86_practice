@@ -25,12 +25,12 @@ _start:
     xor edx, edx                        ; setting to 0
     mov eax, ecx                        ; EDX:EAX is now 42
     mov ecx, 10                         ; divisor is 10
-    div ecx                             ; divide, eax has quotient, ecx has remainder
+    div ecx                             ; divide, eax has quotient, edx has remainder
 
-    add eax, [zero]                     ; add '0' to make it ASCII
-    add edx, [zero]                     ; add '0' to make it ASCII
-    mov [buf], eax                      ; ovewrite 0 with 4
-    mov [buf + 1], edx                  ; ovewrite 0 with 2
+    add al, [zero]                      ; add '0' to make it ASCII
+    add dl, [zero]                      ; add '0' to make it ASCII
+    mov [buf], al                       ; ovewrite 0 with 4
+    mov [buf + 1], dl                   ; ovewrite 0 with 2
     mov ecx, buf                        ; buffer pointer to ecx
     mov edx, 2                          ; length of buffer
     mov eax, 4                          ; write syscall
